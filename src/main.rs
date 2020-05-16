@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::io;
 use std::process;
+mod test;
 
 enum CommandType {
     ADD,
@@ -152,12 +153,13 @@ fn add_employee_to_department(
     company: &mut HashMap<String, Vec<String>>,
     department: &String,
     employee: &String,
-) {
+) -> bool {
     company
         .entry(department.to_string())
         .or_insert(Vec::new())
         .push(employee.to_string());
     println!("{} added to {} department", employee, department);
+    true
 }
 
 fn valid_department_exist(company: &HashMap<String, Vec<String>>, department: &String) -> bool {
@@ -181,11 +183,16 @@ fn valid_employee_not_exist(company: &HashMap<String, Vec<String>>, employee: &S
     return true;
 }
 
-fn main() {
+fn create_company() -> HashMap<String, Vec<String>> {
     let mut company = HashMap::new();
     let mut my_vec = Vec::new();
     my_vec.push("avi".to_string());
     company.insert("engineering".to_string(), my_vec);
+    company
+}
+
+fn main() {
+    let mut company = create_company();
     println!("welcome to HR program");
     loop {
         println!("please enter command");
